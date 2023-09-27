@@ -1,0 +1,75 @@
+[gd_scene load_steps=11 format=3 uid="uid://b65q6g51bxhdb"]
+
+[ext_resource type="Texture2D" uid="uid://7qsdgvdvv1gg" path="res://FX/circle32.png" id="1_7l0gn"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jh83w"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("1_7l0gn")
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id="Gradient_6jpph"]
+offsets = PackedFloat32Array(0, 0.390244, 0.943089)
+colors = PackedColorArray(1, 1, 1, 1, 1, 0.848005, 0.547959, 1, 0.675197, 0.190051, 0.187387, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_8ce12"]
+gradient = SubResource("Gradient_6jpph")
+
+[sub_resource type="Curve" id="Curve_a8yfs"]
+_data = [Vector2(0.012987, 0), 0.0, 0.0, 0, 0, Vector2(0.136364, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_vrgf5"]
+curve = SubResource("Curve_a8yfs")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kbd2l"]
+initial_velocity_min = 10.0
+initial_velocity_max = 10.0
+scale_min = 0.05
+scale_max = 0.15
+scale_curve = SubResource("CurveTexture_vrgf5")
+color_ramp = SubResource("GradientTexture1D_8ce12")
+
+[sub_resource type="QuadMesh" id="QuadMesh_dlbpo"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_canaf"]
+transparency = 1
+albedo_color = Color(0.101961, 0.0392157, 0.0392157, 1)
+albedo_texture = ExtResource("1_7l0gn")
+
+[sub_resource type="QuadMesh" id="QuadMesh_i847k"]
+material = SubResource("StandardMaterial3D_canaf")
+
+[node name="BulletHitFX" type="Node3D"]
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_jh83w")
+emitting = false
+one_shot = true
+speed_scale = 2.0
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_kbd2l")
+draw_pass_1 = SubResource("QuadMesh_dlbpo")
+
+[node name="BulletDecal" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, 0.1, 0, -0.1, -4.37114e-09, 0, 0.005, 0)
+mesh = SubResource("QuadMesh_i847k")
+
+[node name="Decal" type="Decal" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+visible = false
+size = Vector3(2, 2, 0.1)
+texture_albedo = ExtResource("1_7l0gn")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.001
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="GPUParticles3D" method="set_emitting" binds= [true]]

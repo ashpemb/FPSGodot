@@ -1,0 +1,12 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://dh5n5r8vj0nr"]
+
+[ext_resource type="Texture2D" uid="uid://db0noaa4qo521" path="res://Weapons/Assets/machete_shinymetal.png" id="1_fcakk"]
+
+[resource]
+resource_name = "ShinyMetal"
+cull_mode = 2
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("1_fcakk")
+roughness = 0.5
+emission_enabled = true
+texture_filter = 2
