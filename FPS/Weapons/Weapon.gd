@@ -1,6 +1,7 @@
 extends Node3D
+class_name Weapon
 
-@onready var animPlayer = $AnimationPlayer
+@onready var animPlayer : AnimationPlayer = $AnimationPlayer
 @onready var bulletEmittersBase : Node3D = $BulletEmitters
 @onready var bulletEmitters = $BulletEmitters.get_children()
 
@@ -21,8 +22,9 @@ signal outOfAmmoSig
 
 func _ready() -> void:
 	attackTimer = Timer.new()
+	self.add_child(attackTimer)
 	attackTimer.wait_time = attackRate
-	attackTimer.connect("timeout", FinishAttack())
+	attackTimer.connect("timeout", FinishAttack)
 	attackTimer.one_shot = true
 
 func Initialise(InFirePoint : Node3D, InBodies : Array) -> void:
@@ -48,10 +50,26 @@ func Attack(IsJustPressed : bool, IsHeld : bool):
 	if ammo > 0:
 		ammo -= 1
 
-	var startTransform
+	var startTransform = bulletEmittersBase.global_transform
+	bulletEmittersBase.global_transform = firePoint.global_transform
+	for bulletEmitter in bulletEmitters:
+		bulletEmitter.Fire()
+	bulletEmittersBase.global_transform = startTransform
+	animPlayer.stop()
+	animPlayer.play("Attack")
+	firedSig.emit()
+	canAttack = false
+	attackTimer.start()
 
 func FinishAttack():
-	pass
+	canAttack = true
+
+func SetActive():
+	show()
+
+func SetInactive():
+	animPlayer.play("Idle")
+	hide()
 
 
 

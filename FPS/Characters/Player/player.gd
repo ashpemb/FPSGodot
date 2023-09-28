@@ -26,6 +26,7 @@ var dead = false
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	health_manager.deadSig.connect(kill)
+	(weapon_manager as WeaponManager).Initialise($Camera3D/FirePoint, [self])
 
 func _input(event):
 	if event is InputEventMouseMotion:
@@ -64,6 +65,8 @@ func _process(_delta):
 	character_mover.set_move_dir(move_dir)
 	if Input.is_action_just_pressed("jump"):
 		character_mover.jump()
+
+	(weapon_manager as WeaponManager).Attack(Input.is_action_just_pressed("attack"), Input.is_action_pressed("attack"))
 
 func hurt(damage, dir):
 	health_manager.hurt(damage, dir)

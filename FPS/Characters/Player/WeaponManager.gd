@@ -1,5 +1,5 @@
-class_name WeaponManager
 extends Node3D
+class_name WeaponManager
 
 enum WEAPON_SLOTS {MACHETE, MACHINE_GUN, SHOTGUN, ROCKET_LAUNCHER}
 var slots_unlocked = {
@@ -9,43 +9,60 @@ var slots_unlocked = {
 	WEAPON_SLOTS.ROCKET_LAUNCHER: true,
 }
 
+var firePoint : Node3D
+var bodiesToExclude : Array = []
+
 @onready var weapons = $Weapons.get_children()
-var cur_slot = 0
-var cur_weapon = null
+var currentSlot = 0
+var currentWeapon = null
 
 func _ready() -> void:
 	pass
 
+func Initialise(InFirePoint: Node3D, InBodies : Array):
+	firePoint = InFirePoint
+	bodiesToExclude = InBodies
+	for weapon in weapons:
+		if weapon.has_method("Initialise"):
+			weapon.Initialise(InFirePoint, InBodies)
+	SwitchToWeaponSlot(1)
+
+func Attack(IsJustPressed : bool, IsHeld : bool):
+	if currentWeapon == null:
+		return
+	if currentWeapon.has_method("Attack"):
+		currentWeapon.Attack(IsJustPressed, IsHeld)
+
 func SwitchToNextWeapon():
-	cur_slot = (cur_slot + 1) % slots_unlocked.size()
-	if !slots_unlocked[cur_slot]:
+	currentSlot = (currentSlot + 1) % slots_unlocked.size()
+	if !slots_unlocked[currentSlot]:
 		SwitchToNextWeapon()
 	else:
-		SwitchToWeaponSlot(cur_slot)
+		SwitchToWeaponSlot(currentSlot)
 
 func SwitchToLastWeapon():
-	cur_slot = posmod((cur_slot - 1) , slots_unlocked.size())
-	if !slots_unlocked[cur_slot]:
+	currentSlot = posmod((currentSlot - 1) , slots_unlocked.size())
+	if !slots_unlocked[currentSlot]:
 		SwitchToLastWeapon()
 	else:
-		SwitchToWeaponSlot(cur_slot)
+		SwitchToWeaponSlot(currentSlot)
 
 func SwitchToWeaponSlot(index : int):
 	if index < 0 or index>= slots_unlocked.size():
 		return
-	if !slots_unlocked[cur_slot]:
+	if !slots_unlocked[currentSlot]:
 		return
 	DisableAllWeapons()
-	cur_weapon = weapons[index]
-	if cur_weapon.has_method("set_active"):
-		cur_weapon.set_active()
+	currentWeapon = weapons[index]
+	if currentWeapon.has_method("SetActive"):
+		currentWeapon.SetActive()
 	else:
-		cur_weapon.show()
+		currentWeapon.hide()
 
 func DisableAllWeapons():
 	for weapon in weapons:
-		if weapon.has_method("set_inactive"):
-			weapon.set_inactive()
+		if weapon.has_method("SetInactive"):
+			weapon.SetInactive()
 		else:
 			weapon.hide()
 

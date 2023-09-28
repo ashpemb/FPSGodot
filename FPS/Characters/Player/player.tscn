@@ -7,13 +7,42 @@
 [ext_resource type="Script" path="res://Weapons/Weapon.gd" id="4_2ckdu"]
 [ext_resource type="Script" path="res://Characters/Player/WeaponManager.gd" id="4_73qca"]
 [ext_resource type="PackedScene" uid="uid://bwgkhel37ehkt" path="res://Weapons/Assets/machinegun.glb" id="4_dr4oy"]
-[ext_resource type="PackedScene" path="res://Weapons/Assets/shotgun.glb" id="5_jw7cq"]
-[ext_resource type="PackedScene" path="res://Weapons/Assets/rocketlauncher.glb" id="6_5r5bx"]
+[ext_resource type="PackedScene" uid="uid://ci2vyp7inaso2" path="res://Weapons/Assets/shotgun.glb" id="5_jw7cq"]
+[ext_resource type="PackedScene" uid="uid://c5t8d3kuy2bto" path="res://Weapons/Assets/rocketlauncher.glb" id="6_5r5bx"]
 [ext_resource type="PackedScene" uid="uid://5m7348ba7i77" path="res://Weapons/hit_scan_bullet_emitter.tscn" id="6_lkpxq"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ce6wn"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_260ep"]
+
+[sub_resource type="Animation" id="Animation_o2bun"]
+resource_name = "Attack"
+length = 0.3
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Graphics:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.000584692, -0.00578856, 0.015364), Vector3(-0.00239965, 0.0542775, 0.0659711), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Graphics:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.360078, -0.0380377, -0.219915), Vector3(-1.19089, 0.541504, -0.685246), Vector3(-0.772185, 2.6938, -2.32626), Vector3(-1.16638, 0.333369, -0.367001), Vector3(0, 0, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_rvk4v"]
 resource_name = "Idle"
@@ -70,40 +99,27 @@ tracks/1/keys = {
 "values": [Vector3(0, 0, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_o2bun"]
-resource_name = "Attack"
-length = 0.3
-step = 0.05
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Graphics:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector3(-0.000584692, -0.00578856, 0.015364), Vector3(-0.00239965, 0.0542775, 0.0659711), Vector3(0, 0, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Graphics:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.05, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(0.360078, -0.0380377, -0.219915), Vector3(-1.19089, 0.541504, -0.685246), Vector3(-0.772185, 2.6938, -2.32626), Vector3(-1.16638, 0.333369, -0.367001), Vector3(0, 0, 0)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5iurm"]
 _data = {
 "Attack": SubResource("Animation_o2bun"),
 "Idle": SubResource("Animation_rvk4v"),
 "RESET": SubResource("Animation_3cgq8")
+}
+
+[sub_resource type="Animation" id="Animation_j0ck2"]
+resource_name = "Attack"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Graphics/machinegun:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0.638199), Vector3(0, 0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_bvnot"]
@@ -137,27 +153,39 @@ tracks/0/keys = {
 "values": [Vector3(0, 0, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_j0ck2"]
-resource_name = "Attack"
-length = 0.2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Graphics/machinegun:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 0.638199), Vector3(0, 0, 0)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_yw5gd"]
 _data = {
 "Attack": SubResource("Animation_j0ck2"),
 "Idle": SubResource("Animation_bvnot"),
 "RESET": SubResource("Animation_lif3t")
+}
+
+[sub_resource type="Animation" id="Animation_f7j5v"]
+resource_name = "Attack"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Graphics:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.3, 0.4, 0.5, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 1.20291), Vector3(0, 0, -0.337085), Vector3(0, 0, -0.337085), Vector3(0, -1.03607, -0.337085), Vector3(0, 0, -0.337085), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Graphics:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.3, 0.4, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.473996, 0, 0), Vector3(1.51245, 0, 0), Vector3(1.51245, 0, 0), Vector3(0, 0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_vhuub"]
@@ -215,9 +243,16 @@ tracks/1/keys = {
 "values": [Vector3(0, 0, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_f7j5v"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vya4o"]
+_data = {
+"Attack": SubResource("Animation_f7j5v"),
+"Idle": SubResource("Animation_vhuub"),
+"RESET": SubResource("Animation_hiadw")
+}
+
+[sub_resource type="Animation" id="Animation_5c4mx"]
 resource_name = "Attack"
-length = 0.8
+length = 0.4
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -225,29 +260,10 @@ tracks/0/path = NodePath("Graphics:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.3, 0.4, 0.5, 0.8),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(0, 0, 1.20291), Vector3(0, 0, -0.337085), Vector3(0, 0, -0.337085), Vector3(0, -1.03607, -0.337085), Vector3(0, 0, -0.337085), Vector3(0, 0, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Graphics:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.3, 0.4, 0.8),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0.473996, 0, 0), Vector3(1.51245, 0, 0), Vector3(1.51245, 0, 0), Vector3(0, 0, 0)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_vya4o"]
-_data = {
-"Attack": SubResource("Animation_f7j5v"),
-"Idle": SubResource("Animation_vhuub"),
-"RESET": SubResource("Animation_hiadw")
+"values": [Vector3(0, 0, 0.83725), Vector3(0, 0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_4l1d5"]
@@ -305,22 +321,6 @@ tracks/1/keys = {
 "values": [Vector3(0, 0, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_5c4mx"]
-resource_name = "Attack"
-length = 0.4
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Graphics:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.4),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 0.83725), Vector3(0, 0, 0)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xoa0n"]
 _data = {
 "Attack": SubResource("Animation_5c4mx"),
@@ -369,10 +369,8 @@ libraries = {
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0.0574909, -0.010743, 0.170577)
 visible = false
 script = ExtResource("4_2ckdu")
-automatic = null
-damage = null
-ammo = null
-attackRate = null
+automatic = true
+attackRate = 0.1
 
 [node name="Graphics" type="Node3D" parent="Camera3D/WeaponManagerNode/Weapons/MachineGun"]
 
@@ -393,7 +391,6 @@ transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0.0574909, 0.002738, 0.
 visible = false
 
 [node name="Graphics" type="Node3D" parent="Camera3D/WeaponManagerNode/Weapons/Shotgun"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="shotgun" parent="Camera3D/WeaponManagerNode/Weapons/Shotgun/Graphics" instance=ExtResource("5_jw7cq")]
 
@@ -416,6 +413,9 @@ autoplay = "Idle"
 libraries = {
 "": SubResource("AnimationLibrary_xoa0n")
 }
+
+[node name="FirePoint" type="Node3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.113727)
 
 [node name="CharacterMover" parent="." instance=ExtResource("2_at7ue")]
 gravity = 45.0
